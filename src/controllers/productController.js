@@ -1,11 +1,15 @@
-const products = require('../../data/products');
-
-exports.getAllProducts = (req, res) => {
+const Product = require('../../models/productModel');
+const asyncHandler = require('express-async-handler');
+exports.getAllProducts = asyncHandler(async (req, res) => {
+  const products = await Product.find({});
   res.json(products);
-};
+});
 
-exports.getProduct = (req, res) => {
-  const product = products.find((product) => product._id === req.params.id);
-  if (!product) return res.status(404).json({});
+exports.getProduct = asyncHandler(async (req, res, next) => {
+  const product = await Product.findById(req.params.id);
+  if (!product) {
+    res.status(404);
+    return next(new Error('Not Found Product belong the id'));
+  }
   res.json(product);
-};
+});
