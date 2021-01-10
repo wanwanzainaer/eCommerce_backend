@@ -1,6 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const productRouter = require('./routes/productRoute');
+const userRouter = require('./routes/userRoute');
 const errorController = require('./controllers/errorController');
 
 const app = express();
@@ -11,7 +12,7 @@ if (process.env.NODE_ENV === 'development') {
 app.use(express.json());
 
 app.use('/api/products', productRouter);
-
+app.use('/api/users', userRouter);
 app.use((req, res, next) => {
   const error = new Error(`Not Found - ${req.originalUrl}`);
   res.status(404);
