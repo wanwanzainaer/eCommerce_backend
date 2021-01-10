@@ -4,7 +4,7 @@ const HttpError = require('../utils/HttpError');
 const generateToken = require('../utils/generateToken');
 exports.authUser = asyncHandler(async (req, res, next) => {
   const { email, password } = req.body;
-  const user = await User.findOne({ email });
+  const user = await User.findOne({ email }).select('+password');
   if (!user) return next(new HttpError('Can not find user by the email', 401));
   if (!(await user.matchPassword(password)))
     return next(new HttpError('Incorrect Password', 401));
@@ -19,7 +19,13 @@ exports.authUser = asyncHandler(async (req, res, next) => {
 });
 
 exports.getUserProfile = asyncHandler(async (req, res, next) => {
-  // const user = await User.findById(req.user._id);
+  const user = await User.findById(req.user._id);
+  if (!user) return next(new HttpError('User not found', 404));
 
-  res.send('here');
+  res.status(200).json({
+    _id: user._id,
+    name: user.name,
+    email: user.email,
+    isAdmin: user.isAdmin,
+  });
 });
