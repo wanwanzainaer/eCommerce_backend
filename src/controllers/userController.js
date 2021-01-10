@@ -29,3 +29,32 @@ exports.getUserProfile = asyncHandler(async (req, res, next) => {
     isAdmin: user.isAdmin,
   });
 });
+
+exports.registerUser = asyncHandler(async (req, res, next) => {
+  const { name, email, password } = req.body;
+  console.log('here');
+  const userExists = await User.findOne({ email });
+  if (userExists) return next(new HttpError('User already exists', 400));
+
+  console.log('before create user');
+  const user = await User.create({
+    name,
+    email,
+    password,
+  });
+  console.log('after create user');
+
+  console.log(user);
+  if (!user) {
+    return next(new HttpError('Something Error', 500));
+  }
+  console.log('here');
+
+  res.status(201).json({
+    _id: user._id,
+    name: user.name,
+    email: user.email,
+    isAdmin: user.isAdmin,
+    token: generateToken(user._id),
+  });
+});
