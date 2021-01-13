@@ -58,3 +58,24 @@ exports.registerUser = asyncHandler(async (req, res, next) => {
     token: generateToken(user._id),
   });
 });
+
+exports.updateUserProfile = asyncHandler(async (req, res, next) => {
+  // const user = await User.findByIdAndUpdate(req.user._id, { ...req.body });
+
+  const user = await User.findById(req.user._id);
+  if (!user) return next(new HttpError('User not found', 404));
+  user.name = req.body.name || user.anme;
+  user.email = req.body.email || user.email;
+  if (req.body.password) {
+    user.password = req.body.password;
+  }
+  const updatedUser = await user.save();
+
+  res.status(200).json({
+    _id: updatedUser._id,
+    name: updatedUser.name,
+    email: updatedUser.email,
+    isAdmin: updatedUser.isAdmin,
+    token: generateToken(updatedUser._id),
+  });
+});
