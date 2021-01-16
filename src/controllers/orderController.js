@@ -29,3 +29,14 @@ exports.addOrderItems = asyncHandler(async (req, res, next) => {
 
   res.status(201).json(order);
 });
+
+exports.getOrderById = asyncHandler(async (req, res, next) => {
+  const order = await Order.findById(req.params.id).populate(
+    'user',
+    'name email'
+  );
+
+  if (!order) return next(new HttpError('You order not found', 404));
+
+  res.status(200).json(order);
+});
