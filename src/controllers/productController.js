@@ -2,7 +2,6 @@ const Product = require('../../models/productModel');
 const asyncHandler = require('express-async-handler');
 const HttpError = require('../utils/HttpError');
 exports.getAllProducts = asyncHandler(async (req, res) => {
-  console.log('All Product');
   const products = await Product.find({});
   res.json(products);
 });
