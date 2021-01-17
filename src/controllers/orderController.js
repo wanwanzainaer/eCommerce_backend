@@ -1,6 +1,7 @@
 const Order = require('../../models/OrderModel');
 const asyncHandler = require('express-async-handler');
 const HttpError = require('../utils/HttpError');
+const orderRouter = require('../routes/orderRoute');
 
 exports.addOrderItems = asyncHandler(async (req, res, next) => {
   const {

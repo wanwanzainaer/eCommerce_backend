@@ -8,5 +8,5 @@ const {
 
 orderRouter.route('/').post(protect, addOrderItems);
 orderRouter.route('/:id').get(protect, getOrderById);
-orderRouter.route('/id:/pay').put(protect, updateOrderToPaid);
+orderRouter.route('/:id/pay').put(protect, updateOrderToPaid);
 module.exports = orderRouter;
