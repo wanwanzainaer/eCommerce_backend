@@ -40,3 +40,20 @@ exports.getOrderById = asyncHandler(async (req, res, next) => {
 
   res.status(200).json(order);
 });
+
+exports.updateOrderToPaid = asyncHandler(async (req, res, next) => {
+  const order = await Order.findByIdAndUpdate(req.params.id, {
+    isPaid: true,
+    paidAt: Date.now(),
+    paymentResult: {
+      id: req.body.id,
+      status: req.body.status,
+      update_time: req.body.update_time,
+      email_address: req.body.payer.email_address,
+    },
+  });
+
+  if (!order) return next(new HttpError('You order not found', 404));
+
+  res.status(200).json(order);
+});
