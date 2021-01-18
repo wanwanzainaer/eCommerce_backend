@@ -84,3 +84,8 @@ exports.getAllUsers = asyncHandler(async (req, res, next) => {
   const users = await User.find({});
   res.json(users);
 });
+
+exports.deleteUser = asyncHandler(async (req, res, next) => {
+  const user = await User.findByIdAndDelete(req.params.id);
+  res.json({});
+});
