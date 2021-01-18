@@ -23,3 +23,11 @@ exports.protect = asyncHandler(async (req, res, next) => {
 
   next();
 });
+
+exports.admin = (req, res, next) => {
+  if (req.user && req.user.isAdmin) {
+    next();
+  } else {
+    return next(new HttpError('Not authorized as an admin', 401));
+  }
+};

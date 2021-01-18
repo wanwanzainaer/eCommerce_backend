@@ -4,9 +4,12 @@ const {
   addOrderItems,
   getOrderById,
   updateOrderToPaid,
+  getUserOrder,
 } = require('../controllers/orderController');
 
-orderRouter.route('/').post(protect, addOrderItems);
-orderRouter.route('/:id').get(protect, getOrderById);
-orderRouter.route('/:id/pay').put(protect, updateOrderToPaid);
+orderRouter.use(protect);
+orderRouter.route('/').post(addOrderItems);
+orderRouter.route('/userorder').get(getUserOrder);
+orderRouter.route('/:id').get(getOrderById);
+orderRouter.route('/:id/pay').put(updateOrderToPaid);
 module.exports = orderRouter;

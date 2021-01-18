@@ -79,3 +79,41 @@ exports.updateUserProfile = asyncHandler(async (req, res, next) => {
     token: generateToken(updatedUser._id),
   });
 });
+
+exports.getAllUsers = asyncHandler(async (req, res, next) => {
+  const users = await User.find({});
+  res.json(users);
+});
+
+exports.deleteUser = asyncHandler(async (req, res, next) => {
+  const user = await User.findByIdAndDelete(req.params.id);
+  res.json({});
+});
+
+exports.getUserById = asyncHandler(async (req, res, next) => {
+  const user = await User.findById(req.params.id);
+  if (!user) return next(new HttpError('Can not found user by the id', 404));
+  res.json(user);
+});
+
+exports.updateUser = asyncHandler(async (req, res, next) => {
+  // const user = await User.findByIdAndUpdate(req.user._id, { ...req.body });
+
+  const updatedUser = await User.findByIdAndUpdate(req.params.id, {
+    ...req.body,
+  });
+  // if (!user) return next(new HttpError('User not found', 404));
+  // user.name = req.body.name || user.anme;
+  // user.email = req.body.email || user.email;
+  // user.isAdmin = req.body.isAdmin;
+
+  // const updatedUser = await user.save();
+
+  res.status(200).json({
+    _id: updatedUser._id,
+    name: updatedUser.name,
+    email: updatedUser.email,
+    isAdmin: updatedUser.isAdmin,
+    token: generateToken(updatedUser._id),
+  });
+});
