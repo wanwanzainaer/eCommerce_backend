@@ -79,3 +79,8 @@ exports.updateUserProfile = asyncHandler(async (req, res, next) => {
     token: generateToken(updatedUser._id),
   });
 });
+
+exports.getAllUsers = asyncHandler(async (req, res, next) => {
+  const users = await User.find({});
+  res.json(users);
+});
