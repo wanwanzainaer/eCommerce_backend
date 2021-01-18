@@ -8,13 +8,18 @@ const {
   updateUserProfile,
   getAllUsers,
   deleteUser,
+  updateUser,
+  getUserById,
 } = require('../controllers/userController');
 
 userRouter.route('/login').post(authUser);
 userRouter.route('/signup').post(registerUser);
 
 userRouter.use(protect);
-userRouter.route('/:id').delete(admin, deleteUser);
-userRouter.route('/').get(admin, getAllUsers);
+
 userRouter.route('/profile').get(getUserProfile).patch(updateUserProfile);
+
+userRouter.use(admin);
+userRouter.route('/:id').delete(deleteUser).patch(updateUser).get(getUserById);
+userRouter.route('/').get(getAllUsers);
 module.exports = userRouter;
