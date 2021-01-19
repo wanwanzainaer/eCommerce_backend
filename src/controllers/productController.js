@@ -13,3 +13,9 @@ exports.getProduct = asyncHandler(async (req, res, next) => {
   }
   res.json(product);
 });
+
+exports.deleteProduct = asyncHandler(async (req, res, next) => {
+  await Product.findByIdAndDelete(req.params.id);
+
+  res.status(200).json({});
+});
