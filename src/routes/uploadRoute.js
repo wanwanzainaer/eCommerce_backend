@@ -28,7 +28,8 @@ const upload = multer({
 });
 //
 uploadRouter.route('/').post(upload.single('image'), (req, res) => {
-  res.send(`/${reqq.file.path}`);
+  console.log('here');
+  res.send(`/${req.file.path}`);
 });
 
 module.exports = uploadRouter;
