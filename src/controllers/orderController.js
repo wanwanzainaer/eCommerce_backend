@@ -66,3 +66,20 @@ exports.getUserOrder = asyncHandler(async (req, res, next) => {
 
   res.status(200).json(order);
 });
+
+exports.getAllOrders = asyncHandler(async (req, res, next) => {
+  const order = await Order.find({}).populate('user', 'id name');
+
+  res.status(200).json(order);
+});
+
+exports.updateOrderToDelivered = asyncHandler(async (req, res, next) => {
+  const order = await Order.findByIdAndUpdate(req.params.id, {
+    isDelivered: true,
+    deliveredAt: Date.now(),
+  });
+
+  if (!order) return next(new HttpError('You order not found', 404));
+
+  res.status(200).json(order);
+});
