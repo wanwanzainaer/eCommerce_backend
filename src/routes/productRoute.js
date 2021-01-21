@@ -6,7 +6,9 @@ productRouter
   .route('/')
   .get(productController.getAllProducts)
   .post(protect, admin, productController.createProduct);
-
+productRouter
+  .route('/:id/reviews')
+  .post(protect, productController.createProductReview);
 productRouter
   .route('/:id')
   .get(productController.getProduct)

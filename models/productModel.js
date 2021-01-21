@@ -7,11 +7,16 @@ const reviewSchema = new Schema(
       required: true,
     },
     rating: {
-      type: String,
+      type: Number,
       required: true,
     },
     comment: {
       type: String,
+      required: true,
+    },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
       required: true,
     },
   },
@@ -46,7 +51,7 @@ const productSchema = new Schema(
       type: String,
       required: true,
     },
-    reviews: [{ reviewSchema }],
+    reviews: [reviewSchema],
     rating: {
       type: Number,
       required: true,
